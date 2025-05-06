@@ -1,19 +1,13 @@
-package org.example.entity.pojo;
+package org.example.entity.customer.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 /**
  * @author zklee
+ * date 2025/4/28
  */
 @Data
-@TableName("meeting_room")
-public class MeetingRoom {
-    @TableId(type = IdType.AUTO)
+public class MeetingRoomVO {
     private Long id;
 
     private String name; // 会议室名称
@@ -34,7 +28,4 @@ public class MeetingRoom {
 
     private Integer isUnderMaintenance; // 是否处于维修状态
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
 }

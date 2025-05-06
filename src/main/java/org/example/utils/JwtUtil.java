@@ -21,8 +21,8 @@ public class JwtUtil {
         return JWT.create()
                 // 如果有私有声明，一定要先设置这个自己创建的私有的声明，这个是给builder的claim赋值，一旦写在标准的声明赋值之后，就是覆盖了那些标准的声明的
                 .withClaim("claims", claims)
-                // 设置过期时间
-                .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 12))
+                // 设置过期时间 (30 代表 30天）
+                .withExpiresAt(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30))
                 // 设置签名使用的签名算法和签名使用的秘钥
                 .sign(Algorithm.HMAC256(KEY));
     }

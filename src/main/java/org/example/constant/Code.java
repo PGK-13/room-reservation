@@ -5,6 +5,8 @@ public class Code {
     public static final int SERVER_ERROR = 500;
     public static final int UNAUTHORIZED = 401;
     public static final int USER_ERROR = 588;
+    public static final int RESERVATION_ERROR = 577;
+    public static final int UNAUTHRATION_ERROR = 401;
 
     public static final Integer SAVE_OK = 20011;
     public static final Integer DELETE_OK = 20021;

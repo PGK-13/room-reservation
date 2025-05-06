@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.constant.Code;
 import org.example.constant.ResponseConstant;
 import org.example.entity.Result;
+import org.example.exception.user.UserException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,9 +35,20 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(UserException.class)
     @ResponseBody
-    public Result handlerException(UserException e) {
+    public Result handlerUserException(UserException e) {
         log.error("catch UserException:{}",e.getMessage());
         return Result.error(Code.USER_ERROR, e.getMessage());
     }
 
+    /**
+     * 处理订单异常
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(ReservationException.class)
+    @ResponseBody
+    public Result handlerReservationException(ReservationException e) {
+        log.error("catch ReservationException:{}",e.getMessage());
+        return Result.error(Code.RESERVATION_ERROR, e.getMessage());
+    }
 }

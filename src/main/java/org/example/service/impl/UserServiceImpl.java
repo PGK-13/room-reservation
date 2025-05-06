@@ -6,7 +6,7 @@ import org.example.entity.pojo.User;
 import org.example.entity.user.dto.UserLoginDTO;
 import org.example.entity.user.dto.UserRegisterDTO;
 import org.example.entity.user.vo.UserLoginVO;
-import org.example.exception.*;
+import org.example.exception.user.*;
 import org.example.mapper.UserMapper;
 import org.example.service.UserService;
 import org.example.utils.JwtUtil;
@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
         }
 
         Map<String, Object> claims = new HashMap<>();
+        long userId = existUser.getId();
         claims.put("id", existUser.getId());
         String token = JwtUtil.genToken(claims);
 

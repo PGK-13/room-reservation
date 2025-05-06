@@ -1,10 +1,10 @@
-package org.example.exception;
+package org.example.exception.user;
 
 /**
  * @author zklee
  * date 2025/4/28
  */
-public class StatusException extends UserException{
+public class StatusException extends UserException {
     public StatusException() {
     }
 

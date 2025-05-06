@@ -4,19 +4,28 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.example.entity.PageResult;
 import org.example.entity.Result;
+import org.example.entity.admin.dto.CreateRoomDTO;
 import org.example.entity.admin.dto.CustomerDTO;
+import org.example.entity.admin.dto.UpdateRoomDTO;
 import org.example.entity.admin.vo.CustomerVO;
+import org.example.entity.customer.vo.MeetingRoomVO;
+import org.example.entity.pojo.MeetingRoom;
 import org.example.entity.pojo.User;
-import org.example.exception.StatusException;
-import org.example.exception.UserExistedException;
-import org.example.exception.UserNotExistedException;
+import org.example.exception.user.StatusException;
+import org.example.exception.user.UserNotExistedException;
+import org.example.mapper.CancelApplicationMapper;
+import org.example.mapper.MeetingRoomMapper;
+import org.example.mapper.ReservationMapper;
 import org.example.mapper.UserMapper;
 import org.example.service.AdminService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +37,89 @@ public class AdminServiceImpl implements AdminService {
     //TODO 查询用户接口 和 未审核用户接口 有相似性 考虑抽离
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private CancelApplicationMapper cancelApplicationMapper;
+
+    @Autowired
+    private ReservationMapper reservationMapper;
+
+    @Autowired
+    private MeetingRoomMapper meetingRoomMapper;
+
+    @Override
+    public Result<PageResult<MeetingRoomVO>> listMeetingRoom(Integer pageNo, Integer pageSize) {
+        Page<MeetingRoom> page = new Page<>(pageNo, pageSize);
+        LambdaQueryWrapper<MeetingRoom> queryWrapper = new LambdaQueryWrapper<>();
+
+        Page<MeetingRoom> resultPage = meetingRoomMapper.selectPage(page, queryWrapper);
+
+        List<MeetingRoomVO> voList = resultPage.getRecords().stream().map(meetingRoom -> {
+            MeetingRoomVO vo = new MeetingRoomVO();
+            vo.setId(meetingRoom.getId());
+            vo.setName(meetingRoom.getName());
+            vo.setType(meetingRoom.getType());
+            vo.setArea(meetingRoom.getArea());
+            vo.setSeatCount(meetingRoom.getSeatCount());
+            vo.setHasProjector(meetingRoom.getHasProjector());
+            vo.setHasSound(meetingRoom.getHasSound());
+            vo.setHasNetwork(meetingRoom.getHasNetwork());
+            vo.setPricePerHour(meetingRoom.getPricePerHour());
+            vo.setIsUnderMaintenance(meetingRoom.getIsUnderMaintenance());
+            return vo;
+        }).collect(Collectors.toList());
+
+        // 返回
+        PageResult<MeetingRoomVO> pageResult = new PageResult<>(
+                resultPage.getTotal(),
+                resultPage.getPages(),
+                resultPage.getCurrent(),
+                resultPage.getSize(),
+                voList
+        );
+
+        return Result.success(pageResult);
+    }
+
+    @Override
+    public Result createMeetingRoom(CreateRoomDTO createRoomDTO) {
+        MeetingRoom meetingRoom = new MeetingRoom();
+        BeanUtils.copyProperties(createRoomDTO, meetingRoom);
+        meetingRoom.setCreatedAt(LocalDateTime.now());
+        meetingRoom.setUpdatedAt(LocalDateTime.now());
+
+        meetingRoomMapper.insert(meetingRoom);
+        return Result.success();
+    }
+
+    @Override
+    public Result<MeetingRoomVO> getMeetingRoomById(Long id) {
+        MeetingRoom meetingRoom = meetingRoomMapper.selectById(id);
+        MeetingRoomVO meetingRoomVO = new MeetingRoomVO();
+
+        BeanUtils.copyProperties(meetingRoom, meetingRoomVO);
+
+        return Result.success(meetingRoomVO);
+    }
+
+    @Override
+    public Result updateMeetingRoom(UpdateRoomDTO updateRoomDTO) {
+        MeetingRoom meetingRoom = meetingRoomMapper.selectById(updateRoomDTO.getId());
+        BeanUtils.copyProperties(updateRoomDTO, meetingRoom);
+        meetingRoom.setUpdatedAt(LocalDateTime.now());
+
+        meetingRoomMapper.updateById(meetingRoom);
+        return Result.success();
+    }
+
+    @Override
+    public Result deleteMeetingRoom(List<Long> ids) {
+        for (Long id : ids) {
+            meetingRoomMapper.deleteById(id);
+        }
+
+        return Result.success();
+    }
 
     @Override
     public Result<PageResult<CustomerVO>> listCustomer(Integer pageNo, Integer pageSize, String keyword) {

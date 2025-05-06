@@ -1,4 +1,4 @@
-package org.example.exception;
+package org.example.exception.user;
 
 import org.example.constant.ResponseConstant;
 
@@ -8,7 +8,7 @@ import org.example.constant.ResponseConstant;
  * @return
  * @date 2025/04/28
  */
-public class RoleMatchedException extends UserException{
+public class RoleMatchedException extends UserException {
     public RoleMatchedException() {
         super(ResponseConstant.ROLE_CANT_MATCHED);
     }

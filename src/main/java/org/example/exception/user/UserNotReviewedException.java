@@ -1,4 +1,4 @@
-package org.example.exception;
+package org.example.exception.user;
 
 import org.example.constant.ResponseConstant;
 
@@ -8,7 +8,7 @@ import org.example.constant.ResponseConstant;
  * @return
  * @date 2025/04/28
  */
-public class UserNotReviewedException extends UserException{
+public class UserNotReviewedException extends UserException {
     public UserNotReviewedException() {
         super(ResponseConstant.NOT_REVIEWED);
     }

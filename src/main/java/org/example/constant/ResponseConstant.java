@@ -12,6 +12,8 @@ public class ResponseConstant {
 
     public static final String PASSWORD_ERROR = "密码错误";
 
+    public static final String UNAUTHRATION = "没有权限";
+
     public static final String TOKEN_INVALID = "无效的TOKEN";
 
     public static final String TOKEN_EXPIRE = "TOKEN已过期";
@@ -41,4 +43,14 @@ public class ResponseConstant {
     public static final String NOT_REVIEWED = "账号待审核";
 
     public static final String FORZENED = "账号被冻结";
+
+    public static final String TIME_OVER_60 = "预定时间不能在两个月之后";
+
+    public static final String TIME_REQUIRED = "预定时间不能为空";
+
+    public static final String TIME_BEFORE = "开始时间不晚于过去时间";
+
+    public static final String TIME_REST = "预约时间必须在每日8:00到21:00之间";
+
+    public static final String MONEY_NOT_ENOUGH = "余额不足";
 }
