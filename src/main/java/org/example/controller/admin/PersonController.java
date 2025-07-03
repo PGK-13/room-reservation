@@ -21,6 +21,13 @@ public class PersonController {
     @Autowired
     private AdminService adminService;
 
+    /**
+     * 获取用户列表
+     * @param pageNo
+     * @param pageSize
+     * @param keyword
+     * @return
+     */
     @GetMapping("/users")
     public Result<PageResult<CustomerVO>> getCustomer(
             @RequestParam(defaultValue = "1") Integer pageNo,
@@ -29,16 +36,33 @@ public class PersonController {
         return adminService.listCustomer(pageNo, pageSize, keyword);
     }
 
+    /**
+     * 获取id用户的详细信息
+     * @param id
+     * @return
+     */
     @GetMapping("/userById/{id}")
     public Result<CustomerVO> getCustomerById(@PathVariable Integer id) {
         return adminService.getCustomerById(id);
     }
 
+    /**
+     * 更新用户的详细信息
+     * @param customerDTO
+     * @return
+     */
     @PutMapping("/updateuser")
     public Result updateCustomer(@RequestBody CustomerDTO customerDTO) {
         return adminService.updateCustomer(customerDTO);
     }
 
+    /**
+     * 获得申请账号的客户名单
+     * @param pageNo
+     * @param pageSize
+     * @param keyword
+     * @return
+     */
     @GetMapping("/usersReviewed")
     public Result<PageResult<CustomerVO>> getCustomerReviewed(
             @RequestParam(defaultValue = "1") Integer pageNo,
@@ -47,6 +71,11 @@ public class PersonController {
         return adminService.listCustomerReviewed(pageNo, pageSize, keyword);
     }
 
+    /**
+     * 赞成按钮
+     * @param id
+     * @return
+     */
     @PatchMapping("/approve/{id}")
     public Result approve(@PathVariable Integer id) {
         return adminService.approve(id);

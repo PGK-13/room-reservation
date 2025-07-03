@@ -35,6 +35,11 @@ public class CancelReserveController {
     }
 
 
+    /**
+     * 申请按钮，申请要取消这个订单
+     * @param cancelReasonDTO
+     * @return
+     */
     @PostMapping("/cancelApplications")
     public Result apply(@RequestBody CancelReasonDTO cancelReasonDTO) {
         return customerService.apply(cancelReasonDTO);

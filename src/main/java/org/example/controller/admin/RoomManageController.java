@@ -22,6 +22,12 @@ public class RoomManageController {
     @Autowired
     private AdminService adminService;
 
+    /**
+     * 获取会议室列表
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
     @GetMapping("/rooms")
     public Result<PageResult<MeetingRoomVO>> listMeetingRoom(
             @RequestParam(defaultValue = "1") Integer pageNo,
@@ -30,21 +36,41 @@ public class RoomManageController {
         return adminService.listMeetingRoom(pageNo, pageSize);
     }
 
+    /**
+     * 添加会议室
+     * @param createRoomDTO
+     * @return
+     */
     @PostMapping("/addrooms")
     public Result createMeetingRoom(@RequestBody CreateRoomDTO createRoomDTO) {
         return adminService.createMeetingRoom(createRoomDTO);
     }
 
+    /**
+     * 通过id拿到会议室详细信息
+     * @param id
+     * @return
+     */
     @GetMapping("/roomsById/{id}")
     public Result<MeetingRoomVO> getMeetingRoomById(@PathVariable Long id) {
         return adminService.getMeetingRoomById(id);
     }
 
+    /**
+     * 更新某个会议室的信息
+     * @param updateRoomDTO
+     * @return
+     */
     @PutMapping("/updaterooms")
     public Result updateMeetingRoom(@RequestBody UpdateRoomDTO updateRoomDTO) {
         return adminService.updateMeetingRoom(updateRoomDTO);
     }
 
+    /**
+     * 批量删除会议室
+     * @param ids
+     * @return
+     */
     @DeleteMapping("/deleterooms")
     public Result deleteMeetingRoom(
             @RequestParam List<Long> ids

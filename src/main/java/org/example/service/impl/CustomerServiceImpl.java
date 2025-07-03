@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -94,7 +95,9 @@ public class CustomerServiceImpl implements CustomerService {
         if (startTime == null || endTime == null) {
             throw new TimeRequiredException();
         }
-        //TODO 开始时间不晚于结束时间
+        if (startTime.isAfter(endTime)) {
+            throw new StartTimeLateEndTime();
+        }
         if (startTime.isAfter(deadline)) {
             throw new TimeOver60Exception();
         }
@@ -106,6 +109,13 @@ public class CustomerServiceImpl implements CustomerService {
         if (startHour < 8 || endHour > 21) {
             throw new TimeRestException();
         }
+        // 提取 start_time 的日期部分
+        LocalDate startDate = startTime.toLocalDate();
+        LocalDate endDate = endTime.toLocalDate();
+        if (!startDate.equals(endDate)) {
+            throw new NoCurrentDayException();
+        }
+
 
         Page<MeetingRoom> page = new Page<>(meetingRoomDTO.getPageNo(), meetingRoomDTO.getPageSize()); // 可以从请求里传pageNo,pageSize
         LambdaQueryWrapper<MeetingRoom> queryWrapper = new LambdaQueryWrapper<>();

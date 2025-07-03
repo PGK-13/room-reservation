@@ -20,8 +20,8 @@ public interface ReservationMapper extends BaseMapper<Reservation> {
         FROM reservation
         WHERE meeting_room_id = #{roomId}
             AND status IN ('lock', 'reserved')
-            AND start_time < #{endTime}
-            AND end_time > #{startTime}
+            AND ( #{endTime} < start_time 
+            OR #{startTime} > end_time ) 
     """)
     Integer countConflictReservations(
             @Param("roomId") Long roomId,

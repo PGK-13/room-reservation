@@ -53,4 +53,8 @@ public class ResponseConstant {
     public static final String TIME_REST = "预约时间必须在每日8:00到21:00之间";
 
     public static final String MONEY_NOT_ENOUGH = "余额不足";
+
+    public static final String TIME_CURRENTDAY = "开始时间和结束时间必须是同一天";
+
+    public static final String START_TIME_LATE_END_TIME = "开始时间不晚于结束时间";
 }
